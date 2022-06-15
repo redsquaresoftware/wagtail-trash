@@ -26,13 +26,13 @@ class TrashButtonHelper(ButtonHelper):
         "icon-undo",
     ]
 
-    def restore_and_move_button(self, obj):
-        return {
-            "url": reverse("wagtail_trash_move", args=(obj.page.id,)),
-            "label": _("Restore and move"),
-            "classname": self.finalise_classname(self.restore_button_classnames),
-            "title": _("Restore and move"),
-        }
+    # def restore_and_move_button(self, obj):
+    #     return {
+    #         "url": reverse("wagtail_trash_move", args=(obj.page.id,)),
+    #         "label": _("Restore and move"),
+    #         "classname": self.finalise_classname(self.restore_button_classnames),
+    #         "title": _("Restore and move"),
+    #     }
 
     def restore_button(self, obj):
         return {
