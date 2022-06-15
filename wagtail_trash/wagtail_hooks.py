@@ -67,7 +67,7 @@ class TrashButtonHelper(ButtonHelper):
             parent = obj.parent
             if parent and not self.has_ancestor_in_bin(parent):
                 buttons.append(self.restore_button(obj))
-            buttons.append(self.restore_and_move_button(obj))
+            # buttons.append(self.restore_and_move_button(obj))
 
         return buttons
 
