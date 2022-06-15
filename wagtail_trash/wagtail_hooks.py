@@ -118,9 +118,10 @@ class TrashCanModelAdmin(ModelAdmin):
 modeladmin_register(TrashCanModelAdmin)
 
 
-@hooks.register("before_delete_page")
-def delete_page(request, page):
-    return trash_delete(request, page)
+# move delete page hooks into main project
+# @hooks.register("before_delete_page")
+# def delete_page(request, page):
+#     return trash_delete(request, page)
 
 
 @hooks.register("construct_page_chooser_queryset")
