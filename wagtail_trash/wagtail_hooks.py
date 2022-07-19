@@ -57,7 +57,7 @@ class TrashButtonHelper(ButtonHelper):
         return "wagtail_trash" in ancestor_app_labels
 
     def get_buttons_for_obj(
-        self, obj, exclude=["edit", "delete"], classnames_add=None, classnames_exclude=None
+        self, obj, exclude=["edit"], classnames_add=None, classnames_exclude=None
     ):
         buttons = super().get_buttons_for_obj(
             obj, exclude, classnames_add, classnames_exclude
