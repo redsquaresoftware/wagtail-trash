@@ -43,7 +43,7 @@ class TrashButtonHelper(ButtonHelper):
 
     def real_delete_button(self, obj):
         return {
-            "url": reverse("wagtail_trash_real_delete", args=(obj.page.id)),
+            "url": reverse("wagtail_trash_real_delete", args=(obj.page.id,)),
             # "url": self.url_helper.get_action_url('delete', quote(obj.page.id)),
             "label": _("Real delete"),
             "classname": self.finalise_classname(self.delete_button_classnames),
