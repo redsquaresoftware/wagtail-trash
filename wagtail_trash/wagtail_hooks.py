@@ -10,7 +10,7 @@ from wagtail.core.models import Page
 
 from .models import TrashCan, TrashCanPage
 from .utils import trash_can_for_request
-from .views import trash_delete, trash_move, trash_restore
+from .views import trash_delete, trash_move, trash_restore, trash_real_delete
 
 
 class TrashPermissionHelper(PermissionHelper):
@@ -19,6 +19,13 @@ class TrashPermissionHelper(PermissionHelper):
 
 
 class TrashButtonHelper(ButtonHelper):
+    delete_button_classnames = [
+        "button-small",
+        "button-secondary",
+        "icon",
+        "icon-bin",
+    ]
+
     restore_button_classnames = [
         "button-small",
         "button-secondary",
@@ -33,6 +40,15 @@ class TrashButtonHelper(ButtonHelper):
     #         "classname": self.finalise_classname(self.restore_button_classnames),
     #         "title": _("Restore and move"),
     #     }
+
+    def real_delete_button(self, obj):
+        return {
+            "url": reverse("wagtail_trash_real_delete", args=(obj.page.id)),
+            # "url": self.url_helper.get_action_url('delete', quote(obj.page.id)),
+            "label": _("Real delete"),
+            "classname": self.finalise_classname(self.delete_button_classnames),
+            "title": _("Real delete")
+        }
 
     def restore_button(self, obj):
         return {
@@ -57,7 +73,7 @@ class TrashButtonHelper(ButtonHelper):
         return "wagtail_trash" in ancestor_app_labels
 
     def get_buttons_for_obj(
-        self, obj, exclude=["edit"], classnames_add=None, classnames_exclude=None
+        self, obj, exclude=["edit", "delete"], classnames_add=None, classnames_exclude=None
     ):
         buttons = super().get_buttons_for_obj(
             obj, exclude, classnames_add, classnames_exclude
@@ -68,6 +84,8 @@ class TrashButtonHelper(ButtonHelper):
             if parent and not self.has_ancestor_in_bin(parent):
                 buttons.append(self.restore_button(obj))
             # buttons.append(self.restore_and_move_button(obj))
+
+        buttons.append(self.real_delete_button(obj))
 
         return buttons
 
@@ -151,4 +169,9 @@ def urlconf_time():
             trash_restore,
             name="wagtail_trash_restore",
         ),
+        path(
+            "wagtail_trash/delete/<int:page_id>",
+            trash_real_delete,
+            name="wagtail_trash_real_delete",
+        )
     ]

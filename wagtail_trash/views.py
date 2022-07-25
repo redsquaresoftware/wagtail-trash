@@ -23,6 +23,34 @@ def get_valid_next_url_from_request(request):
     return next_url
 
 
+def trash_real_delete(request, page_id):
+    print("page_id: {} :: {}".format(page_id, type(page_id)))
+
+    rb = TrashCan.objects.get(page_id=page_id)
+    page = rb.page
+    parent = page.get_parent()
+
+
+    if not page.permissions_for_user(request.user).can_edit():
+        raise PermissionDenied
+
+    print("ready to delete page {}".format(page))
+
+    page.delete(user=request.user)
+
+    messages.success(
+        request, _("Page '{0}' deleted.").format(page.get_admin_display_title())
+    )
+
+
+    next_url = get_valid_next_url_from_request(request)
+
+    if next_url:
+        return redirect(next_url)
+
+    return redirect("wagtailadmin_explore", parent.id)
+
+
 def trash_delete(request, page):
     if not request.method == "POST":
         return
