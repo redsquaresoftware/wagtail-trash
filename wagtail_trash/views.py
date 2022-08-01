@@ -24,7 +24,7 @@ def get_valid_next_url_from_request(request):
 
 
 def trash_real_delete(request, page_id):
-    print("page_id: {} :: {}".format(page_id, type(page_id)))
+    # print("page_id: {} :: {}".format(page_id, type(page_id)))
 
     rb = TrashCan.objects.get(page_id=page_id)
     page = rb.page
